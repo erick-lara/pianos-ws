@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  pianosws:
+    build: .
+    ports:
+      - "8081:8080"
+    networks:
+      - compose-bridge
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/
+    depends_on:
+      - postgresdb
+
+  postgresdb:
+    container_name: meu-postgre
+    image: "postgres:latest"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - compose-bridge
+
+networks:
+  compose-bridge:
+    driver: "bridge"
