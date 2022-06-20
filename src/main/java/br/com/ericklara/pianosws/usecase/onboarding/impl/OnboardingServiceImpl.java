@@ -1,7 +1,7 @@
 package br.com.ericklara.pianosws.usecase.onboarding.impl;
 
 import br.com.ericklara.pianosws.domain.dto.NewUserDTO;
-import br.com.ericklara.pianosws.domain.entity.User;
+import br.com.ericklara.pianosws.domain.entity.Usuario;
 import br.com.ericklara.pianosws.domain.exception.BusinessException;
 import br.com.ericklara.pianosws.domain.response.DefaultResponse;
 import br.com.ericklara.pianosws.infra.repository.UserRepository;
@@ -38,7 +38,7 @@ public class OnboardingServiceImpl implements OnboardingService {
             throw new BusinessException("Esse email já está em uso.", HttpStatus.CONFLICT);
         }
 
-        User dtoToUser = User.Builder
+        Usuario dtoToUsuario = Usuario.Builder
                 .create()
                 .withCpf(userDTO.getCpf())
                 .withEmail(userDTO.getEmail())
@@ -47,8 +47,8 @@ public class OnboardingServiceImpl implements OnboardingService {
                 .withRegistrationDate(new Date())
                 .build();
 
-        userRepository.save(dtoToUser);
-        LOGGER.info("[NEW USER] Novo usuário cadastrado! E-MAIL: {}", dtoToUser.getEmail());
+        userRepository.save(dtoToUsuario);
+        LOGGER.info("[NEW USER] Novo usuário cadastrado! E-MAIL: {}", dtoToUsuario.getEmail());
 
         return new DefaultResponse<>(
                 true,

@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +21,10 @@ public class User {
     @Column(name = "dh_registered")
     private Date registrationDate;
 
-    public User() {
+    public Usuario() {
     }
 
-    public User(Long idUser, String name, String cpf, String password, String email, Date registrationDate) {
+    public Usuario(Long idUser, String name, String cpf, String password, String email, Date registrationDate) {
         this.idUser = idUser;
         this.name = name;
         this.cpf = cpf;
@@ -121,14 +121,14 @@ public class User {
             return this;
         }
 
-        public User build() {
-            User user = new User();
-            user.setName(name);
-            user.setCpf(cpf);
-            user.setPassword(password);
-            user.setEmail(email);
-            user.setRegistrationDate(registrationDate);
-            return user;
+        public Usuario build() {
+            Usuario usuario = new Usuario();
+            usuario.setName(name);
+            usuario.setCpf(cpf);
+            usuario.setPassword(password);
+            usuario.setEmail(email);
+            usuario.setRegistrationDate(registrationDate);
+            return usuario;
         }
     }
 }

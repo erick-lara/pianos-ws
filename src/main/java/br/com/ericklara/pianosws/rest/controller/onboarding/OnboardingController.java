@@ -1,7 +1,6 @@
-package br.com.ericklara.pianosws.rest.controller;
+package br.com.ericklara.pianosws.rest.controller.onboarding;
 
 import br.com.ericklara.pianosws.domain.dto.NewUserDTO;
-import br.com.ericklara.pianosws.domain.response.DefaultResponse;
 import br.com.ericklara.pianosws.usecase.onboarding.OnboardingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

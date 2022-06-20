@@ -1,4 +1,4 @@
-package br.com.ericklara.pianosws.rest.controller;
+package br.com.ericklara.pianosws.rest.controller.advicer;
 
 import br.com.ericklara.pianosws.domain.exception.BusinessException;
 import br.com.ericklara.pianosws.domain.response.DefaultResponse;
@@ -15,7 +15,7 @@ public class ApplicationControllerAdvicer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationControllerAdvicer.class);
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<DefaultResponse> handleBusinessException(BusinessException exception){
+    public ResponseEntity<DefaultResponse<String>> handleBusinessException(BusinessException exception){
         LOGGER.info("[ADVICER] Tratando exceção: {}", exception.getMensagem());
         return ResponseEntity
                 .status(exception.getStatus())
@@ -26,13 +26,13 @@ public class ApplicationControllerAdvicer {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<DefaultResponse> handleBusinessException(){
-        LOGGER.info("[ADVICER] Tratando uma exceção não mapeada.");
+    public ResponseEntity<DefaultResponse<String>> handleBusinessException(Exception exception){
+        LOGGER.info("[ADVICER] Tratando uma exceção não mapeada: {}", exception.getMessage());
         return ResponseEntity
                 .status(512)
                 .body(new DefaultResponse<>(
                         false,
-                        "Houve um erro :("
+                        exception.getMessage()
                 ));
     }
 
