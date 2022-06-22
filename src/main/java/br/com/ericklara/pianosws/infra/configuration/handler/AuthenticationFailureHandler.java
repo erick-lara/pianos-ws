@@ -12,6 +12,6 @@ public class AuthenticationFailureHandler extends FailureHandler implements Auth
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        super.mapper(response, HttpStatus.UNAUTHORIZED);
+        super.mapper(response, request, HttpStatus.UNAUTHORIZED);
     }
 }

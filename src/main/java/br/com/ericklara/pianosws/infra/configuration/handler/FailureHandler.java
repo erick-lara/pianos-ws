@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -13,8 +14,8 @@ public abstract class FailureHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
 
-    protected void mapper(HttpServletResponse response, HttpStatus status) throws IOException {
-        LOGGER.info("[FAILURE HANDLER] Acesso à endpoint negado. STATUS: {}", status.value());
+    protected void mapper(HttpServletResponse response, HttpServletRequest request, HttpStatus status) throws IOException {
+        LOGGER.info("[FAILURE HANDLER] Acesso à endpoint [{}] negado. STATUS: {}",request.getRequestURL(), status.value());
 
         ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json;charset=UTF-8");

@@ -12,7 +12,7 @@ public class AccessFailureHandler extends FailureHandler implements AccessDenied
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        super.mapper(response, HttpStatus.FORBIDDEN);
+        super.mapper(response, request, HttpStatus.FORBIDDEN);
     }
 
 }
