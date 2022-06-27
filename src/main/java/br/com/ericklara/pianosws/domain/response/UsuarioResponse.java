@@ -1,6 +1,5 @@
 package br.com.ericklara.pianosws.domain.response;
 
-import javax.persistence.Column;
 
 public class UsuarioResponse {
 

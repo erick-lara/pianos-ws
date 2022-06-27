@@ -9,12 +9,12 @@ public class ExceptionResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
     private String message;
-    private String url;
+    private String path;
 
-    public ExceptionResponse(String message, String url) {
+    public ExceptionResponse(String message, String path) {
         this.timestamp = LocalDateTime.now();
         this.message = message;
-        this.url = url;
+        this.path = path;
     }
 
     public LocalDateTime getTimestamp() {
@@ -25,7 +25,7 @@ public class ExceptionResponse {
         return message;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPath() {
+        return path;
     }
 }

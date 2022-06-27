@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestControllerAdvice
@@ -18,24 +19,28 @@ public class ApplicationControllerAdvicer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationControllerAdvicer.class);
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<DefaultResponse<String>> handleBusinessException(BusinessException exception, HttpServletRequest request){
-        LOGGER.info("[ADVICER] Tratando exceção: {} - URL: '{}'", exception.getMensagem(), request.getRequestURI());
+    public ResponseEntity<DefaultResponse<ExceptionResponse>> handleBusinessException(
+            BusinessException exception, HttpServletRequest request
+    ){
+        LOGGER.info("[ADVICER] Tratando exceção: {} - URL: [{}]", exception.getMensagem(), request.getRequestURL());
         return ResponseEntity
                 .status(exception.getStatus())
                 .body(new DefaultResponse<>(
                         false,
-                        exception.getMensagem()
+                        new ExceptionResponse(
+                                exception.getMensagem(),
+                                request.getRequestURI()
+                        )
                 ));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<DefaultResponse<ExceptionResponse>> handleBusinessException(
-            HttpServletRequest request,
-            Exception exception
+            HttpServletRequest request, Exception exception, HttpServletResponse response
     ){
-        LOGGER.info("[ADVICER] Tratando uma exceção não mapeada: {} - URL: '{}'", exception.getMessage(), request.getRequestURI());
+        LOGGER.info("[ADVICER] Tratando uma exceção não mapeada: {} - URL: [{}]", exception.getMessage(), request.getRequestURL());
         return ResponseEntity
-                .status(512)
+                .status(response.getStatus())
                 .body(new DefaultResponse<>(
                         false,
                         new ExceptionResponse(
