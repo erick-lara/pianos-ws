@@ -13,11 +13,11 @@ import java.io.IOException;
 public abstract class FailureHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FailureHandler.class);
+    private final ObjectMapper mapper = new ObjectMapper();
 
     protected void mapper(HttpServletResponse response, HttpServletRequest request, HttpStatus status) throws IOException {
         LOGGER.info("[FAILURE HANDLER] Acesso à endpoint [{}] negado. STATUS: {}",request.getRequestURL(), status.value());
 
-        ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(status.value());
         response.getWriter().write(

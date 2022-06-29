@@ -34,13 +34,18 @@ public class ApplicationControllerAdvicer {
                 ));
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Throwable.class)
     public ResponseEntity<DefaultResponse<ExceptionResponse>> handleBusinessException(
             HttpServletRequest request, Exception exception, HttpServletResponse response
     ){
-        LOGGER.info("[ADVICER] Tratando uma exceção não mapeada: {} - URL: [{}]", exception.getMessage(), request.getRequestURL());
+        LOGGER.info(
+                "[ADVICER] Tratando uma exceção não mapeada: {} - URL: [{}]",
+                exception.getMessage(),
+                request.getRequestURL()
+        );
+
         return ResponseEntity
-                .status(response.getStatus())
+                .status(512)
                 .body(new DefaultResponse<>(
                         false,
                         new ExceptionResponse(

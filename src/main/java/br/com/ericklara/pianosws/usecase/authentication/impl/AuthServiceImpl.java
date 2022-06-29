@@ -5,7 +5,7 @@ import br.com.ericklara.pianosws.domain.entity.Usuario;
 import br.com.ericklara.pianosws.domain.exception.BusinessException;
 import br.com.ericklara.pianosws.domain.response.DefaultResponse;
 import br.com.ericklara.pianosws.domain.response.UsuarioResponse;
-import br.com.ericklara.pianosws.infra.mapper.UsuarioMapper;
+import br.com.ericklara.pianosws.infra.utils.Mapper;
 import br.com.ericklara.pianosws.infra.repository.UserRepository;
 import br.com.ericklara.pianosws.usecase.authentication.AuthService;
 import org.slf4j.Logger;
@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static br.com.ericklara.pianosws.infra.enums.ExceptionResponses.USER_NOT_FOUND;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -41,31 +43,33 @@ public class AuthServiceImpl implements AuthService {
         boolean passwordMatch = passwordEncoder.matches(loginDTO.getPassword(), user.getPassword());
 
         if(passwordMatch) {
-            Usuario foundUser = userRepository.findByEmail(loginDTO.getEmail().toLowerCase()).get();
-            UsernamePasswordAuthenticationToken auth = new
-                    UsernamePasswordAuthenticationToken(user,
-                    null,
-                    user.getAuthorities());
+            Optional<Usuario> foundUser = userRepository.findByEmail(loginDTO.getEmail().toLowerCase());
 
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(auth);
+            if(foundUser.isPresent()){
+                UsernamePasswordAuthenticationToken auth = new
+                        UsernamePasswordAuthenticationToken(user,
+                        null,
+                        user.getAuthorities());
 
-            LOGGER.info("[LOGIN] Iniciando sessão do usuário {}", foundUser.getIdUser());
-            return new DefaultResponse<>(
-                    true,
-                    new UsuarioMapper().userToResponse(foundUser)
-            );
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(auth);
 
+                LOGGER.info("[LOGIN] Iniciando sessão do usuário {}", foundUser.get().getIdUser());
+                return new DefaultResponse<>(
+                        true,
+                        Mapper.userToResponse(foundUser.get())
+                );
+            }
         }
-        throw new BusinessException("Usuário ou senha inválidos", HttpStatus.NOT_FOUND);
+        throw new BusinessException(USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Usuario> foundUser = userRepository.findByEmail(username);
         if(foundUser.isEmpty())
-            throw new BusinessException("Usuário ou senha inválidos", HttpStatus.NOT_FOUND);
+            throw new BusinessException(USER_NOT_FOUND, HttpStatus.NOT_FOUND);
 
         Usuario usuario = foundUser.get();
 
