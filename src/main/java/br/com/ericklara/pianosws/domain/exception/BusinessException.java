@@ -1,6 +1,6 @@
 package br.com.ericklara.pianosws.domain.exception;
 
-import br.com.ericklara.pianosws.infra.enums.ExceptionResponses;
+import br.com.ericklara.pianosws.infra.enums.ExceptionType;
 import org.springframework.http.HttpStatus;
 
 public class BusinessException extends RuntimeException {
@@ -13,7 +13,7 @@ public class BusinessException extends RuntimeException {
         this.status = status;
     }
 
-    public BusinessException(ExceptionResponses mensagem, HttpStatus status) {
+    public BusinessException(ExceptionType mensagem, HttpStatus status) {
         this.mensagem = mensagem.toString();
         this.status = status;
     }

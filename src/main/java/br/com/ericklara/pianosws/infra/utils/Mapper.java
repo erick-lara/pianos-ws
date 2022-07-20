@@ -5,7 +5,7 @@ import br.com.ericklara.pianosws.domain.entity.Product;
 import br.com.ericklara.pianosws.domain.entity.Usuario;
 import br.com.ericklara.pianosws.domain.response.UsuarioResponse;
 
-import static br.com.ericklara.pianosws.infra.enums.ExceptionResponses.NO_INSTANCE_ALLOWED;
+import static br.com.ericklara.pianosws.infra.enums.ExceptionType.NO_INSTANCE_ALLOWED;
 
 public class Mapper {
 
@@ -27,7 +27,7 @@ public class Mapper {
         return Product.Builder
                 .create()
                 .withProductName(productDTO.getProductName())
-                .withProductType(productDTO.getProductType().toString())
+                .withProductType(productDTO.getProductType())
                 .withPrice(productDTO.getPrice())
                 .withQuantityInStock(productDTO.getQuantityInStock())
                 .build();

@@ -1,6 +1,8 @@
 package br.com.ericklara.pianosws.domain.entity;
 
 
+import br.com.ericklara.pianosws.infra.enums.ProductType;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -14,7 +16,8 @@ public class Product {
     private String productName;
     private BigDecimal price;
     private Integer quantityInStock;
-    private String productType;
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
 
     public Long getIdProduct() {
         return idProduct;
@@ -48,11 +51,11 @@ public class Product {
         this.quantityInStock = quantityInStock;
     }
 
-    public String getProductType() {
+    public ProductType getProductType() {
         return productType;
     }
 
-    public void setProductType(String productType) {
+    public void setProductType(ProductType productType) {
         this.productType = productType;
     }
 
@@ -61,7 +64,7 @@ public class Product {
         private String productName;
         private BigDecimal price;
         private Integer quantityInStock;
-        private String productType;
+        private ProductType productType;
 
         private Builder() {
         }
@@ -85,7 +88,7 @@ public class Product {
             return this;
         }
 
-        public Builder withProductType(String productType) {
+        public Builder withProductType(ProductType productType) {
             this.productType = productType;
             return this;
         }

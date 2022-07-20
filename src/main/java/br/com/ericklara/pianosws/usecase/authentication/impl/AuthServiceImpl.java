@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static br.com.ericklara.pianosws.infra.enums.ExceptionResponses.USER_NOT_FOUND;
+import static br.com.ericklara.pianosws.infra.enums.ExceptionType.USER_NOT_FOUND;
 
 @Service
 public class AuthServiceImpl implements AuthService {

@@ -1,7 +1,9 @@
 package br.com.ericklara.pianosws.infra.configuration.handler;
 
 import br.com.ericklara.pianosws.domain.response.DefaultResponse;
+import br.com.ericklara.pianosws.domain.response.ExceptionResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,13 +20,17 @@ public abstract class FailureHandler {
     protected void mapper(HttpServletResponse response, HttpServletRequest request, HttpStatus status) throws IOException {
         LOGGER.info("[FAILURE HANDLER] Acesso à endpoint [{}] negado. STATUS: {}",request.getRequestURL(), status.value());
 
+        mapper.registerModule(new JavaTimeModule());
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(status.value());
         response.getWriter().write(
                 mapper.writeValueAsString(
                         new DefaultResponse<>(
                                 false,
-                                "Acesso negado."
+                                new ExceptionResponse(
+                                        "Acesso negado.",
+                                        request.getRequestURI()
+                                )
                         )
                 )
         );
